@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Practice.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TypingApp&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">typingapp</a> &gt; <span class="el_source">Practice.java</span></div><h1>Practice.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package typingapp;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask; 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.text.html.HTMLEditorKit;
+
+/**
+ *
+ * @author aaxxo
+ */
+public class Practice extends javax.swing.JFrame {
+<span class="nc" id="L24">    public int counter = 60; </span>
+<span class="nc" id="L25">    private boolean startCount=false;</span>
+<span class="nc" id="L26">    private Timer timer=new Timer();</span>
+<span class="nc" id="L27">    private Timer colorTimer = new Timer();</span>
+    TextPractice code;
+<span class="nc" id="L29">    private int linesIndicator=0;</span>
+    class Helper extends TimerTask 
+    { 
+    private int choice;
+    public Helper(int choice)
+<span class="nc" id="L34">    {</span>
+<span class="nc" id="L35">        this.choice=choice;</span>
+<span class="nc" id="L36">    }</span>
+<span class="nc" id="L37">    boolean flag=true;</span>
+    @Override
+    public void run() 
+    { 
+<span class="nc bnc" id="L41" title="All 3 branches missed.">            switch(choice){</span>
+                // time timer ellapced one second
+                case 1:
+<span class="nc" id="L44">                    --counter;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                    if(counter &lt;= 0)</span>
+                    {
+<span class="nc" id="L47">                        int correctChars = code.getNumberOfCorrectCharacters();</span>
+<span class="nc" id="L48">                        Map&lt;String, Integer&gt; errorChars = code.getErrorChar();</span>
+                       
+<span class="nc" id="L50">                        JFrame resultForm=new Results(correctChars, errorChars);</span>
+<span class="nc" id="L51">                        resultForm.setVisible(true);</span>
+<span class="nc" id="L52">                        hideForm();</span>
+<span class="nc" id="L53">                        timer.cancel();</span>
+<span class="nc" id="L54">                    }</span>
+                    else
+                    {
+<span class="nc" id="L57">                        Practice_remainingTime.setText(counter+&quot;&quot;);</span>
+                    }
+<span class="nc" id="L59">                    break;</span>
+                  //tm timer elappced half second  
+                case 2:
+                    //alternate rhe timer color between red and blue
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                    if(flag)</span>
+                        {
+<span class="nc" id="L65">                            Practice_remainingTime.setForeground(Color.red);</span>
+<span class="nc" id="L66">                            flag = false;</span>
+                        }
+                        else
+                        {
+<span class="nc" id="L70">                            Practice_remainingTime.setForeground(Color.BLUE);</span>
+<span class="nc" id="L71">                            flag=true;</span>
+                        }
+                    break;
+            }
+<span class="nc" id="L75">        }</span>
+    } 
+    /**
+     * Creates new form Practice
+     */
+    private void hideForm()
+    {
+<span class="nc" id="L82">        this.setVisible(false);</span>
+<span class="nc" id="L83">    }</span>
+    public void showLines(int num)
+    {
+        // show nunm lines in the origin code panel
+<span class="nc" id="L87">        Practice_originCodePane.setText(&quot;&quot;);</span>
+<span class="nc" id="L88">        String h=&quot;&lt;style&gt;span{font-size:14px;font-weight:700}&lt;/style&gt;&quot;;</span>
+<span class="nc" id="L89">        ArrayList&lt;String&gt; lines=code.getLines(num);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        for( String l : lines)</span>
+        {
+<span class="nc" id="L92">            String[]words=l.split(&quot; &quot;);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">             for( String word : words)</span>
+<span class="nc" id="L94">                 h+=&quot; &lt;span&gt;&quot;+word+&quot;&lt;/span&gt;&quot;;</span>
+<span class="nc" id="L95">             h+=&quot; &lt;br&gt; &quot;;</span>
+<span class="nc" id="L96">        }</span>
+<span class="nc" id="L97">       Practice_originCodePane.setText(h);</span>
+<span class="nc" id="L98">       System.out.println(Practice_originCodePane.getText());</span>
+
+<span class="nc" id="L100">    }</span>
+<span class="nc" id="L101">    public Practice() {</span>
+<span class="nc" id="L102">        initComponents();</span>
+<span class="nc" id="L103">        this.setLocationRelativeTo(null);</span>
+<span class="nc" id="L104">        this.setResizable(false);</span>
+<span class="nc" id="L105">        this.setTitle(&quot;Typing Typo&quot;);</span>
+        
+<span class="nc" id="L107">        code =new TextPractice();</span>
+<span class="nc" id="L108">        HTMLEditorKit kit = new HTMLEditorKit();</span>
+<span class="nc" id="L109">        Practice_originCodePane.setEditorKit(kit);</span>
+    
+<span class="nc" id="L111">        Practice_originCodePane.setContentType(&quot;text/html&quot;);</span>
+<span class="nc" id="L112">        Practice_languageName.setText(Settings.getLanguageName());</span>
+<span class="nc" id="L113">        String iconPath = &quot;TypingApp\\IconResources\\&quot; + Settings.getLanguageName() + &quot;.png&quot;;</span>
+        try{
+<span class="nc" id="L115">        Practice_languageName.setIcon(new ImageIcon(iconPath));</span>
+        }
+<span class="nc" id="L117">        catch(Exception e){}</span>
+<span class="nc" id="L118">        code.setText(Settings.getLanguageCode());</span>
+<span class="nc" id="L119">        showLines(7);</span>
+<span class="nc" id="L120">        code.setNewLine();</span>
+<span class="nc" id="L121">        backgorundColorInput(&quot;#b8e069&quot;,code.getCurrentWord());</span>
+<span class="nc" id="L122">    }</span>
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L133">        jScrollBar1 = new javax.swing.JScrollBar();</span>
+<span class="nc" id="L134">        Practice_panel = new javax.swing.JPanel();</span>
+<span class="nc" id="L135">        Practice_practiceLabel = new javax.swing.JLabel();</span>
+<span class="nc" id="L136">        Practice_languageLabel = new javax.swing.JLabel();</span>
+<span class="nc" id="L137">        Practice_remainingTimeLabel = new javax.swing.JLabel();</span>
+<span class="nc" id="L138">        Practice_timeIndecatorLabel = new javax.swing.JLabel();</span>
+<span class="nc" id="L139">        Practice_returnToMainMenuButton = new javax.swing.JButton();</span>
+<span class="nc" id="L140">        jScrollPane3 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L141">        Practice_originCodePane = new javax.swing.JTextPane();</span>
+<span class="nc" id="L142">        Practice_remainingTime = new javax.swing.JLabel();</span>
+<span class="nc" id="L143">        Practice_languageName = new javax.swing.JLabel();</span>
+<span class="nc" id="L144">        Practice_inputCodeBox = new javax.swing.JTextField();</span>
+
+<span class="nc" id="L146">        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);</span>
+
+<span class="nc" id="L148">        Practice_practiceLabel.setFont(new java.awt.Font(&quot;Calibri&quot;, 1, 24)); // NOI18N</span>
+<span class="nc" id="L149">        Practice_practiceLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);</span>
+<span class="nc" id="L150">        Practice_practiceLabel.setText(&quot;Practice !&quot;);</span>
+
+<span class="nc" id="L152">        Practice_languageLabel.setFont(new java.awt.Font(&quot;Calibri&quot;, 0, 14)); // NOI18N</span>
+<span class="nc" id="L153">        Practice_languageLabel.setText(&quot;Language: &quot;);</span>
+
+<span class="nc" id="L155">        Practice_remainingTimeLabel.setFont(new java.awt.Font(&quot;Tahoma&quot;, 0, 14)); // NOI18N</span>
+<span class="nc" id="L156">        Practice_remainingTimeLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);</span>
+<span class="nc" id="L157">        Practice_remainingTimeLabel.setText(&quot;Time Remaining: &quot;);</span>
+
+<span class="nc" id="L159">        Practice_returnToMainMenuButton.setText(&quot;End&quot;);</span>
+<span class="nc" id="L160">        Practice_returnToMainMenuButton.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L162">                Practice_returnToMainMenuButtonActionPerformed(evt);</span>
+<span class="nc" id="L163">            }</span>
+        });
+
+<span class="nc" id="L166">        Practice_originCodePane.setEditable(false);</span>
+<span class="nc" id="L167">        Practice_originCodePane.setFont(new java.awt.Font(&quot;Arial Unicode MS&quot;, 1, 25));</span>
+<span class="nc" id="L168">        jScrollPane3.setViewportView(Practice_originCodePane);</span>
+
+<span class="nc" id="L170">        Practice_remainingTime.setFont(new java.awt.Font(&quot;Cambria Math&quot;, 0, 14)); // NOI18N</span>
+<span class="nc" id="L171">        Practice_remainingTime.setText(&quot;60&quot;);</span>
+
+<span class="nc" id="L173">        Practice_languageName.setFont(new java.awt.Font(&quot;Calibri&quot;, 1, 14)); // NOI18N</span>
+<span class="nc" id="L174">        Practice_languageName.setText(&quot;Practice_languageName&quot;);</span>
+
+<span class="nc" id="L176">        Practice_inputCodeBox.setFont(new java.awt.Font(&quot;Calibri Light&quot;, 1, 14)); // NOI18N</span>
+<span class="nc" id="L177">        Practice_inputCodeBox.setHorizontalAlignment(javax.swing.JTextField.LEFT);</span>
+<span class="nc" id="L178">        Practice_inputCodeBox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));</span>
+<span class="nc" id="L179">        Practice_inputCodeBox.addKeyListener(new java.awt.event.KeyAdapter() {</span>
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+<span class="nc" id="L181">                Practice_inputCodeBoxKeyPressed(evt);</span>
+<span class="nc" id="L182">            }</span>
+        });
+
+<span class="nc" id="L185">        javax.swing.GroupLayout Practice_panelLayout = new javax.swing.GroupLayout(Practice_panel);</span>
+<span class="nc" id="L186">        Practice_panel.setLayout(Practice_panelLayout);</span>
+<span class="nc" id="L187">        Practice_panelLayout.setHorizontalGroup(</span>
+<span class="nc" id="L188">            Practice_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L189">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Practice_panelLayout.createSequentialGroup()</span>
+<span class="nc" id="L190">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L191">                .addComponent(Practice_returnToMainMenuButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L192">            .addGroup(Practice_panelLayout.createSequentialGroup()</span>
+<span class="nc" id="L193">                .addGap(212, 212, 212)</span>
+<span class="nc" id="L194">                .addComponent(Practice_practiceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L195">                .addGap(0, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L196">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Practice_panelLayout.createSequentialGroup()</span>
+<span class="nc" id="L197">                .addGroup(Practice_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L198">                    .addGroup(Practice_panelLayout.createSequentialGroup()</span>
+<span class="nc" id="L199">                        .addGap(122, 122, 122)</span>
+<span class="nc" id="L200">                        .addComponent(Practice_languageLabel)</span>
+<span class="nc" id="L201">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L202">                        .addComponent(Practice_languageName, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L203">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L204">                        .addComponent(Practice_remainingTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L205">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L206">                        .addComponent(Practice_remainingTime, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L207">                        .addGap(40, 40, 40)</span>
+<span class="nc" id="L208">                        .addComponent(Practice_timeIndecatorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L209">                    .addGroup(Practice_panelLayout.createSequentialGroup()</span>
+<span class="nc" id="L210">                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L211">                        .addGroup(Practice_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L212">                            .addComponent(Practice_inputCodeBox, javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L213">                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE))))</span>
+<span class="nc" id="L214">                .addGap(41, 41, 41))</span>
+        );
+<span class="nc" id="L216">        Practice_panelLayout.setVerticalGroup(</span>
+<span class="nc" id="L217">            Practice_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L218">            .addGroup(Practice_panelLayout.createSequentialGroup()</span>
+<span class="nc" id="L219">                .addGroup(Practice_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L220">                    .addGroup(Practice_panelLayout.createSequentialGroup()</span>
+<span class="nc" id="L221">                        .addGap(55, 55, 55)</span>
+<span class="nc" id="L222">                        .addComponent(Practice_timeIndecatorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L223">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Practice_panelLayout.createSequentialGroup()</span>
+<span class="nc" id="L224">                        .addComponent(Practice_practiceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L225">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L226">                        .addGroup(Practice_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L227">                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Practice_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L228">                                .addComponent(Practice_remainingTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L229">                                .addComponent(Practice_remainingTime))</span>
+<span class="nc" id="L230">                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Practice_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L231">                                .addComponent(Practice_languageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L232">                                .addComponent(Practice_languageName)))))</span>
+<span class="nc" id="L233">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L234">                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L235">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)</span>
+<span class="nc" id="L236">                .addComponent(Practice_inputCodeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L237">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L238">                .addComponent(Practice_returnToMainMenuButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L239">                .addContainerGap())</span>
+        );
+
+<span class="nc" id="L242">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L243">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L244">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L245">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L246">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L247">                .addContainerGap()</span>
+<span class="nc" id="L248">                .addComponent(Practice_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L250">        layout.setVerticalGroup(</span>
+<span class="nc" id="L251">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L252">            .addComponent(Practice_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+
+<span class="nc" id="L255">        pack();</span>
+<span class="nc" id="L256">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void Practice_inputCodeBoxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Practice_inputCodeBoxKeyPressed
+<span class="nc bnc" id="L259" title="All 2 branches missed.">        if(startCount==false)</span>
+        {
+            //defining two timers, the first one to control the color of the timer and the second one for the timer itself
+<span class="nc" id="L262">            startCount=true;</span>
+<span class="nc" id="L263">            TimerTask task2 = new Helper(2);</span>
+<span class="nc" id="L264">            colorTimer.schedule(task2, 0, 500);</span>
+
+<span class="nc" id="L266">            TimerTask task = new Helper(1);</span>
+<span class="nc" id="L267">            timer.schedule(task, 0 ,1000);</span>
+        }
+<span class="nc" id="L269">        int key = evt.getKeyCode();</span>
+<span class="nc bnc" id="L270" title="All 4 branches missed.">        if(key == 32 || key == 10)//Space is 32 , Enter is 10, move to new word if pressed Space or Enter</span>
+        {
+<span class="nc" id="L272">            String inputWord=Practice_inputCodeBox.getText();</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">            if(inputWord.trim().equals(&quot;&quot;))</span>
+<span class="nc" id="L274">            return;</span>
+<span class="nc" id="L275">            String correctWord=code.getCurrentWord();</span>
+<span class="nc" id="L276">            System.out.println(correctWord+&quot; &quot;+inputWord);</span>
+<span class="nc" id="L277">            Practice_inputCodeBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L278">            boolean iscorrect=code.compareWord(correctWord.trim(), code.cleanString(inputWord).trim());</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">            if(iscorrect==true)</span>
+            {
+<span class="nc" id="L281">                code.increase_numberOfCorrectCharacters(inputWord.length());</span>
+<span class="nc" id="L282">                colorInput(&quot;green&quot;,correctWord.trim());</span>
+                //color green
+            }else
+            {
+<span class="nc" id="L286">                colorInput(&quot;red&quot;,correctWord.trim());</span>
+                //color red;
+            }
+<span class="nc bnc" id="L289" title="All 2 branches missed.">            if(code.increase_CurrentWord()==true)</span>
+            {
+<span class="nc" id="L291">                linesIndicator++;</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">                if(linesIndicator==7)</span>
+                {
+<span class="nc" id="L294">                    showLines(7);//Thread</span>
+<span class="nc" id="L295">                    linesIndicator=0;</span>
+                }
+            }
+<span class="nc" id="L298">            backgorundColorInput(&quot;#b8e069&quot;,code.getCurrentWord());</span>
+<span class="nc" id="L299">            System.out.println(iscorrect);</span>
+        }
+<span class="nc" id="L301">    }//GEN-LAST:event_Practice_inputCodeBoxKeyPressed</span>
+
+    private void Practice_returnToMainMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Practice_returnToMainMenuButtonActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L305">        this.setVisible(false);</span>
+<span class="nc" id="L306">        new MainMenu().setVisible(true);</span>
+<span class="nc" id="L307">        timer.cancel();</span>
+<span class="nc" id="L308">    }//GEN-LAST:event_Practice_returnToMainMenuButtonActionPerformed</span>
+public void colorInput(String color,String word)
+{
+    // Change the color of the word by the color depending on if its truly typed or not
+<span class="nc" id="L312">    word=code.cleanString(word);</span>
+<span class="nc" id="L313">    String colorText=&quot;&lt;span style='color:&quot;+color+&quot;'&gt;&quot;;</span>
+<span class="nc" id="L314">    String codeText=Practice_originCodePane.getText();</span>
+<span class="nc" id="L315">    codeText=codeText.replace(&quot;&lt;span style=\&quot;background-color: #b8e069\&quot;&gt;&quot;+word+&quot;&lt;/span&gt;&quot;, colorText+word+&quot;&lt;/span&gt;&quot;);</span>
+<span class="nc" id="L316">    Practice_originCodePane.setText(codeText);</span>
+<span class="nc" id="L317">}</span>
+
+public void backgorundColorInput(String color,String word)
+{
+<span class="nc" id="L321">    String x=&quot;&quot;;</span>
+<span class="nc" id="L322">    word=code.cleanString(word);</span>
+<span class="nc" id="L323">    System.out.println(&quot;&lt;span&gt;&quot;+word+&quot;&lt;/span&gt;&quot;);</span>
+<span class="nc" id="L324">    String colorText=&quot;&lt;span style='background-color:&quot;+color+&quot;'&gt;&quot;;</span>
+<span class="nc" id="L325">    String codeText=Practice_originCodePane.getText();</span>
+<span class="nc" id="L326">    int current=codeText.indexOf(&quot;&lt;span&gt;&quot;+word+&quot;&lt;/span&gt;&quot;);</span>
+    try{
+<span class="nc" id="L328">    x=codeText.substring(0,current)+colorText+word+&quot;&lt;/span&gt;&quot;+codeText.substring(current+6*2+word.length()+1,codeText.length());</span>
+<span class="nc" id="L329">    }catch(Exception e)</span>
+    {
+<span class="nc" id="L331">        x=&quot;&lt;span&gt;&quot;+word+&quot;&lt;/span&gt;&quot;;</span>
+<span class="nc" id="L332">    }</span>
+<span class="nc" id="L333">    System.out.println(x);</span>
+<span class="nc" id="L334">    Practice_originCodePane.setText(x);</span>
+<span class="nc" id="L335">}</span>
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L346" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L347" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L348">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L349">                    break;</span>
+                }
+            }
+<span class="nc" id="L352">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L353">            java.util.logging.Logger.getLogger(Practice.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L354">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L355">            java.util.logging.Logger.getLogger(Practice.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L356">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L357">            java.util.logging.Logger.getLogger(Practice.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L358">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L359">            java.util.logging.Logger.getLogger(Practice.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L360">        }</span>
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L364">        java.awt.EventQueue.invokeLater(new Runnable() {    </span>
+        public void run() {
+<span class="nc" id="L366">                new Practice().setVisible(true);</span>
+                
+<span class="nc" id="L368">            }</span>
+        });
+<span class="nc" id="L370">    }</span>
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Practice_inputCodeBox;
+    private javax.swing.JLabel Practice_languageLabel;
+    private javax.swing.JLabel Practice_languageName;
+    private javax.swing.JTextPane Practice_originCodePane;
+    private javax.swing.JPanel Practice_panel;
+    private javax.swing.JLabel Practice_practiceLabel;
+    private javax.swing.JLabel Practice_remainingTime;
+    private javax.swing.JLabel Practice_remainingTimeLabel;
+    private javax.swing.JButton Practice_returnToMainMenuButton;
+    private javax.swing.JLabel Practice_timeIndecatorLabel;
+    private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JScrollPane jScrollPane3;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

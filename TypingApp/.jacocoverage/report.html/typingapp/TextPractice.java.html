@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TextPractice.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TypingApp&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">typingapp</a> &gt; <span class="el_source">TextPractice.java</span></div><h1>TextPractice.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package typingapp;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ *
+ * @author Waleed Jubeh
+ */
+<span class="fc" id="L17">public class TextPractice {</span>
+<span class="fc" id="L18">    private ArrayList&lt;String&gt; lines=new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L19">    private Map&lt;String, Integer&gt; errorChar = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L20">    private ArrayList&lt;String&gt; currentLine=new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L21">    private int currentWord=0;</span>
+<span class="fc" id="L22">    private int lineCounter=0;</span>
+<span class="fc" id="L23">    private int currentLineCounter=0;</span>
+<span class="fc" id="L24">    private int numberOfCorrectCharacters=0;</span>
+    
+    public void increase_numberOfCorrectCharacters(int num)
+    {
+<span class="nc" id="L28">        numberOfCorrectCharacters+=num;</span>
+<span class="nc" id="L29">    }</span>
+    
+    
+    
+    public boolean isEndOfLine()
+    {
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        return currentWord==currentLine.size();</span>
+    }
+    public boolean increase_CurrentWord()
+    {
+<span class="fc" id="L39">        currentWord+=1;</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        boolean temp=currentWord&gt;=currentLine.size();</span>
+        
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if(currentWord&gt;=currentLine.size())</span>
+        {
+<span class="fc" id="L44">            currentWord=0;</span>
+<span class="fc" id="L45">            setNewLine();</span>
+        }
+<span class="fc" id="L47">        return temp;</span>
+    }
+    public String getCurrentWord()
+    {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">      if(currentWord&gt;=currentLine.size())</span>
+<span class="fc" id="L52">            return &quot; &quot;;</span>
+<span class="fc" id="L53">        return currentLine.get(currentWord);</span>
+    }
+    public void setText(String txt)
+    {
+<span class="fc" id="L57">        String [] textLine=txt.split(&quot;\n&quot;);</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        for (String tl : textLine) {</span>
+<span class="fc" id="L59">            String cleanedLine=tl.replaceAll(&quot;^ +| +$|( )+&quot;, &quot;$1&quot;);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            if(cleanedLine.length()==0)continue;</span>
+<span class="fc" id="L61">            lines.add(cleanedLine);</span>
+        }
+<span class="fc" id="L63">    }</span>
+    /**
+     *
+     * @param numberOfLines
+     * @return
+     */
+    public ArrayList&lt;String&gt; getLines(int  numberOfLines)
+    {
+<span class="fc" id="L71">        ArrayList&lt;String&gt; lineRecieved=new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L72">        int temp=Math.max(0, currentLineCounter-1);</span>
+<span class="fc bfc" id="L73" title="All 4 branches covered.">        for (int i=temp;i&lt;lines.size() &amp;&amp; i&lt;(temp+numberOfLines) ;i++)</span>
+        {
+<span class="fc" id="L75">            String code=lines.get(i);</span>
+<span class="fc" id="L76">            lineRecieved.add(code);</span>
+        }
+<span class="fc" id="L78">        return lineRecieved;</span>
+    }
+    public String cleanString(String code)
+    {
+<span class="fc" id="L82">        code = code.replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);</span>
+<span class="fc" id="L83">        code = code.replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);</span>
+<span class="fc" id="L84">        code = code.replace(&quot;\&quot;&quot;, &quot;&amp;quot;&quot;);</span>
+<span class="fc" id="L85">        return code;</span>
+    }
+    public void setNewLine()
+    {
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if(lines.size()==0)</span>
+<span class="fc" id="L90">            return ;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if(currentLineCounter&gt;=lines.size())</span>
+<span class="fc" id="L92">            currentLineCounter=0;</span>
+<span class="fc" id="L93">        currentLine.clear();</span>
+<span class="fc" id="L94">        currentLine.addAll(Arrays.asList(lines.get(currentLineCounter).split(&quot; &quot;)));</span>
+<span class="fc" id="L95">        currentLineCounter++;</span>
+<span class="fc" id="L96">    }</span>
+    public boolean compareWord(String orginal, String userInput)
+    {
+<span class="fc" id="L99">        boolean correct=true;</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        for(int i=0;i&lt;orginal.length();i++)</span>
+<span class="fc bfc" id="L101" title="All 4 branches covered.">            if(i&gt;=userInput.length() || orginal.charAt(i)!=userInput.charAt(i))</span>
+            {
+<span class="fc" id="L103">                String key=(orginal.charAt(i)+&quot;&quot;);</span>
+<span class="fc" id="L104">                errorChar.put(key , errorChar.getOrDefault(key, 0) + 1 );</span>
+<span class="fc" id="L105">                correct=false;</span>
+            }
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if(orginal.length() != userInput.length())</span>
+<span class="fc" id="L108">            return false;</span>
+<span class="fc" id="L109">        return correct;</span>
+    }
+
+    public Map&lt;String, Integer&gt; getErrorChar() {
+<span class="nc" id="L113">        return errorChar;</span>
+    }
+
+    public int getNumberOfCorrectCharacters() {
+<span class="nc" id="L117">        return numberOfCorrectCharacters;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
