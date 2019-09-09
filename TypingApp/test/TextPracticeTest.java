@@ -15,7 +15,7 @@ import typingapp.TextPractice;
 
 /**
  *
- * @author Relax
+ * @author Waleed Jubeh
  */
 public class TextPracticeTest {
 
@@ -169,8 +169,7 @@ public class TextPracticeTest {
         String userInput = "{";
         assertTrue(tester.compareWord(Orginal, userInput));
     }
-
-    // Test public String getCurrentWord()
+  // Test public String getCurrentWord()
     // Normal test Case
     @Test
     public void getCurrentWord_test1() {
@@ -240,5 +239,67 @@ public class TextPracticeTest {
         String expected = "Using";
         assertEquals(expected, tester.getCurrentWord());
     }
-    
+    // Test  public ArrayList<String> getLines(int  numberOfLines)
+
+    @Test
+    public void getLines_test1() {
+
+        tester.setText("import <iostream>;\nUsing namespace std;\nint main()");
+        String[] lines = "import <iostream>;\nUsing namespace std;\nint main()".split("\n");
+        ArrayList<String> recieved = tester.getLines(3);
+        boolean isEqual = true;
+        for (int i = 0; i < recieved.size() && isEqual; i++) {
+            if (recieved.get(i).equals(lines[i]) == false) {
+                isEqual = false;
+            }
+        }
+
+        assertTrue(isEqual);
+    }
+    //Check if we have only one line 
+      @Test
+    public void getLines_test2() {
+
+        tester.setText("import <iostream>;");
+        String[] lines = "import <iostream>;\n".split("\n");
+        ArrayList<String> recieved = tester.getLines(3);
+        boolean isEqual = true;
+        for (int i = 0; i < recieved.size() && isEqual; i++) {
+            if (recieved.get(i).equals(lines[i]) == false) {
+                isEqual = false;
+            }
+        }
+
+        assertTrue(isEqual);
+    }
+
+        public void getLines_test3() {
+
+        tester.setText("import <iostream>;");
+        String[] lines = "import <iostream>;\n".split("\n");
+        ArrayList<String> recieved = tester.getLines(3);
+        boolean isEqual = true;
+        for (int i = 0; i < recieved.size() && isEqual; i++) {
+            if (recieved.get(i).equals(lines[i]) == false) {
+                isEqual = false;
+            }
+        }
+
+        assertTrue(isEqual);
+    }
+        @Test
+        public void getLines_test4() {
+
+        tester.setText("import <iostream>;");
+        String[] lines = "import <iostream>;\n".split("\n");
+        ArrayList<String> recieved = tester.getLines(0);
+        boolean isEqual = true;
+        for (int i = 0; i < recieved.size() && isEqual; i++) {
+            if (recieved.get(i).equals(lines[i]) == false) {
+                isEqual = false;
+            }
+        }
+
+        assertTrue(isEqual);
+    }  
 }
