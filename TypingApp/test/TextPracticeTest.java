@@ -170,4 +170,75 @@ public class TextPracticeTest {
         assertTrue(tester.compareWord(Orginal, userInput));
     }
 
+    // Test public String getCurrentWord()
+    // Normal test Case
+    @Test
+    public void getCurrentWord_test1() {
+        tester.setText("string str1 = \"sister\";\n"
+                + "string str2 = \"Sister\";\n"
+                + "string relation;\n"
+                + "int result;");
+        String expected = "string";
+        tester.setNewLine();
+        assertEquals(expected, tester.getCurrentWord());
+    }
+
+    // Normal test Case
+    @Test
+    public void getCurrentWord_test2() {
+
+        tester.setText("string str1 = \"sister\";\n"
+                + "string str2 = \"Sister\";\n"
+                + "string relation;\n"
+                + "int result;");
+        tester.setNewLine();
+        String expected = "str1";
+        tester.increase_CurrentWord();
+        assertEquals(expected, tester.getCurrentWord());
+    }
+    // String is empty ("") in the object
+
+    @Test
+    public void getCurrentWord_test3() {
+
+        tester.setText("");
+        tester.setNewLine();
+        String expected = " ";
+        assertEquals(expected, tester.getCurrentWord());
+    }
+
+    // All lines are written , so it should back to the first line.
+    @Test
+    public void getCurrentWord_test4() {
+
+        tester.setText("import");
+        tester.setNewLine();
+        tester.setNewLine();
+        String expected = "import";
+        assertEquals(expected, tester.getCurrentWord());
+    }
+
+    @Test
+    public void getCurrentWord_test5() {
+
+        tester.setText("import <iostream>;\nUsing namespace std;\nint main()");
+        tester.setNewLine();
+        tester.setNewLine();
+        tester.setNewLine();
+        String expected = "int";
+        assertEquals(expected, tester.getCurrentWord());
+    }
+
+    // if we reach last word in a line ,Focus in the next line
+    @Test
+    public void getCurrentWord_test6() {
+
+        tester.setText("import <iostream>;\nUsing namespace std;\nint main()");
+        tester.setNewLine();
+        tester.increase_CurrentWord();
+        tester.increase_CurrentWord();
+        String expected = "Using";
+        assertEquals(expected, tester.getCurrentWord());
+    }
+    
 }
