@@ -322,3 +322,4 @@ public class TextPracticeTest {
         assertTrue(isEqual);
     }  
 }
+//21 passed , 2 failed
